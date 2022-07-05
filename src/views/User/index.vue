@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div>我的页面，编辑用户资料</div>
 </template>
 
 <script>
