@@ -1,37 +1,17 @@
+import '@/utils/console.js' // 去掉打印语句
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// 引入 flexible.js - > 设置根标签字体大小（移动端适配）
-import 'amfe-flexible'
-import {
-  NavBar,
-  Form,
-  Field,
-  Button,
-  Tabbar,
-  TabbarItem,
-  Icon,
-  Tab,
-  Tabs,
-  Cell,
-  CellGroup
-} from 'vant'
+import 'highlight.js/styles/default.css' // 代码高亮的样式
+import 'amfe-flexible' // 引入 flexible.js - > 设置根标签字体大小（移动端适配）
+import directiveObj from './utils/directive'
+import './VueComponent.js' // vant 组件的注册，单独分成一个js文件，让main.js更新
 
-Vue.use(NavBar)
-Vue.use(Form)
-Vue.use(Field)
-Vue.use(Button)
-Vue.use(Tabbar)
-Vue.use(TabbarItem)
-Vue.use(Icon)
-Vue.use(Tab)
-Vue.use(Tabs)
-Vue.use(Cell)
-Vue.use(CellGroup)
+console.log(process.env)
 
+Vue.use(directiveObj) // Vue.use()作用：执行目标对象的 install 方法并传入 Vue类
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

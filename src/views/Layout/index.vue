@@ -1,7 +1,9 @@
 <template>
   <div class="home-container">
-    <!-- 二级路由页面 -->
-    <router-view></router-view>
+    <keep-alive exclude="User">
+      <!-- 二级路由页面 -->
+      <router-view></router-view>
+    </keep-alive>
     <!-- 下面底部导航 -->
     <div>
       <van-tabbar route>

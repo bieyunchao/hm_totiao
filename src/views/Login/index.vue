@@ -22,7 +22,9 @@
         name="code"
         label="密码"
         placeholder="请输入6位密码"
-        :rules="[{ required: true, message: '请填写密码', pattern: /^\d{6}$/ }]"
+        :rules="[
+          { required: true, message: '请填写6位数字的密码', pattern: /^\d{6}$/ }
+        ]"
       />
       <!-- 提交按钮 -->
       <div style="margin: 16px">
@@ -43,9 +45,10 @@
 
 <script>
 import { loginAPI } from '@/api/index.js'
-import { Notify } from 'vant'
 // 导入操作 Token 的工具模块
 import { setToken } from '@/utils/token.js'
+import { setStorage } from '@/utils/storage.js'
+import Toast from '@/ui/Toast.js'
 export default {
   data() {
     return {
@@ -62,14 +65,23 @@ export default {
       try {
         this.isLoading = true
         const { data: res } = await loginAPI(values)
-        console.log(res)
-        Notify({ type: 'success', message: '登录成功！！！' })
+        Toast({
+          type: 'success',
+          message: '登录成功！'
+        })
         setToken(res.data.token)
+        setStorage('refresh_token', res.data.refresh_token)
         // 注意：跳转一定要写在最后 -> 尽量最后执行
-        this.$router.replace('/layout')
+        if (this.$route.query.path === '/layout/user') {
+          this.$router.replace(this.$route.query.path || '/layout')
+        }
+        this.$router.replace(this.$route.query.path || '/layout')
       } catch (err) {
         // Promise 内的 ajax 抛出错误，直接进入这里
-        Notify({ type: 'danger', message: '账号或密码错误' })
+        Toast({
+          type: 'fail',
+          message: '账号或密码错误'
+        })
       } finally {
         // 网络请求完成，无论成功或失败都结束 Loading 状态
         this.isLoading = false
